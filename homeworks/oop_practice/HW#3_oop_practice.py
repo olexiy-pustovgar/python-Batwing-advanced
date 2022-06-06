@@ -33,7 +33,11 @@ class Human(Person, ABC):
 
     def buy_house(self, house):
         if self.money >= house.cost:
-            print(f'{self.name}! You can buy this house {house}')
+            discount = realtor.discount()
+            print(f'{self.name}! You can buy this house {house}. Discount for you: {discount}%')
+            print(f'Price for you: {(house.cost  - house.cost * discount/100)}!')
+            self.money -= house.cost  - house.cost * discount/100
+            print(f'{self.name}, you have money: {self.money} ')
         else:
             print(f'{self.name}! Make money!')
 
@@ -60,10 +64,9 @@ class RealtorMeta(type):
         return cls._instances[cls]
 
 class Realtor(metaclass=RealtorMeta):
-    def __init__(self, name, houses, discount):
+    def __init__(self, name, houses):
         self.name = name
         self.houses = houses
-        self.discount = discount
 
     def provide_info(self):
         for i in self.houses:
@@ -76,10 +79,11 @@ class Realtor(metaclass=RealtorMeta):
 
     def discount(self):
         return random.randint(0, 20)
+
 h1 = House(40, 7900)
 h2 = House(32, 5000)
 h3 = House(56, 9200)
-realtor = Realtor('Mike', [h1, h2, h3], 10)
+realtor = Realtor('Mike', [h1, h2, h3])
 realtor.provide_info()
 human1 = Human('Bob', 22, 4000, True)
 human1.make_money()
