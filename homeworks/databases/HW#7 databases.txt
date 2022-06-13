@@ -1,0 +1,47 @@
+sudo mysql -u root -p school67 < school66.sql
+USE school67
+CREATE TABLE level (id INT PRIMARY KEY AUTO_INCREMENT, level_number INT NOT NULL);
+INSERT INTO levels (level_number) VALUE (9), (10), (11);
+INSERT INTO students (first_name, last_name) VALUES ("Olexiy", "Pustovgar"), ("Bob","Marley"), ("Dr","Alban");
+CREATE TABLE student_level (id INT PRIMARY KEY AUTO_INCREMENT, student_id INT NOT NULL, level_id INT NOT NULL);
+INSERT INTO student_level (student_id, level_id) VALUES (1, 3), (2, 3), (3, 2), (4, 1), (5, 1), (6, 2), (7, 3);
+mysql> SELECT s.first_name, s.last_name, l.level_number FROM students s INNER JOIN student_level sl ON sl.student_id = s.id INNER JOIN level l ON sl.level_id = l.id;
++------------+-----------+--------------+
+| first_name | last_name | level_number |
++------------+-----------+--------------+
+| Ivan       | Pidhaynuy |           11 |
+| Petro      | Pravdoryb |           11 |
+| Yuriy      | Skobylko  |           10 |
+| Liubomyr   | Luzhnyi   |            9 |
+| Olexiy     | Pustovgar |            9 |
+| Bob        | Marley    |           10 |
+| Dr         | Alban     |           11 |
++------------+-----------+--------------+
+7 rows in set (0,00 sec)
+INSERT INTO students_lessons (student_id, lesson_id) VALUES (7,2), (7,3), (7,4), (6,1), (6,4), (5,1), (5,3), (5,2)
+mysql> SELECT s.first_name, s.last_name, lev.level_number, les.name, t.name FROM students s INNER JOIN students_lessons sls ON sls.student_id = s.id INNER JOIN lessons les
+ON les.id=sls.lesson_id INNER JOIN teachers t ON t.lesson_id=les.id INNER JOIN student_level sl ON sl.student_id = s.id INNER JOIN level lev ON sl.level_id = lev.id;
++------------+-----------+--------------+---------+----------------------+
+| first_name | last_name | level_number | name    | name                 |
++------------+-----------+--------------+---------+----------------------+
+| Olexiy     | Pustovgar |            9 | Math    | Margaryta Ivanivna   |
+| Dr         | Alban     |           11 | Math    | Margaryta Ivanivna   |
+| Petro      | Pravdoryb |           11 | Math    | Margaryta Ivanivna   |
+| Yuriy      | Skobylko  |           10 | Math    | Margaryta Ivanivna   |
+| Olexiy     | Pustovgar |            9 | IT      | Yulia Liubomyrivna   |
+| Dr         | Alban     |           11 | IT      | Yulia Liubomyrivna   |
+| Liubomyr   | Luzhnyi   |            9 | IT      | Yulia Liubomyrivna   |
+| Ivan       | Pidhaynuy |           11 | IT      | Yulia Liubomyrivna   |
+| Olexiy     | Pustovgar |            9 | Biology | Roskolana Stepanivna |
+| Bob        | Marley    |           10 | Biology | Roskolana Stepanivna |
+| Liubomyr   | Luzhnyi   |            9 | Biology | Roskolana Stepanivna |
+| Yuriy      | Skobylko  |           10 | Biology | Roskolana Stepanivna |
+| Petro      | Pravdoryb |           11 | Biology | Roskolana Stepanivna |
+| Olexiy     | Pustovgar |            9 | Biology | Kateryna Yuriivna    |
+| Bob        | Marley    |           10 | Biology | Kateryna Yuriivna    |
+| Liubomyr   | Luzhnyi   |            9 | Biology | Kateryna Yuriivna    |
+| Yuriy      | Skobylko  |           10 | Biology | Kateryna Yuriivna    |
+| Petro      | Pravdoryb |           11 | Biology | Kateryna Yuriivna    |
++------------+-----------+--------------+---------+----------------------+
+18 rows in set (0,00 sec)
+
